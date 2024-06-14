@@ -5,6 +5,7 @@ int main(int argc, char* argv[]){
         my_main::GAME_TITLE,
         my_main::FLAGS_SDL_INIT,
         my_main::FLAGS_IMG_INIT,
+        {0, 0},
         my_main::WINDOW_FLAGS,
         my_main::RENDERER_FLAGS,
         my_main::FPS
@@ -38,7 +39,7 @@ int main(int argc, char* argv[]){
             // ズーム  Zoom
             if(event.type == SDL_MOUSEWHEEL){
                 SDL_GetMouseState(&mouse_xy.x, &mouse_xy.y);
-                mouse_abs_xy = camera->GetXY() + static_cast<common::Vec2<double>>(mouse_xy) * (1 / camera->GetZoom());
+                mouse_abs_xy = camera->GetXY() + mouse_xy * (1 / camera->GetZoom());
                 camera->SetZoom(std::max(my_main::MAX_CAMERA_ZOOM, camera->GetZoom() + event.wheel.y * my_main::CAMERA_ZOOM_STEP));
                 camera->SetXY(mouse_abs_xy - static_cast<common::Vec2<double>>(mouse_xy) * (1 / camera->GetZoom()));
             }
@@ -65,19 +66,19 @@ int main(int argc, char* argv[]){
         if(camera->GetXY().y < 0){
             camera->SetXY({camera->GetXY().x, 0});
         }
-        if(camera->GetXY().x + game->GetWindowSize().x * (1 / camera->GetZoom()) > stage->GetWidth()){
-            camera->SetXY({stage->GetWidth() - game->GetWindowSize().x * (1 / camera->GetZoom()), camera->GetXY().y});
+        if(camera->GetXY().x + game->GetWindowSizeXY().x * (1 / camera->GetZoom()) > stage->GetWidth()){
+            camera->SetXY({stage->GetWidth() - game->GetWindowSizeXY().x * (1 / camera->GetZoom()), camera->GetXY().y});
         }
-        if(camera->GetXY().y + game->GetWindowSize().y * (1 / camera->GetZoom()) > stage->GetHeight()){
-            camera->SetXY({camera->GetXY().x, stage->GetHeight() - game->GetWindowSize().y * (1 / camera->GetZoom())});
+        if(camera->GetXY().y + game->GetWindowSizeXY().y * (1 / camera->GetZoom()) > stage->GetHeight()){
+            camera->SetXY({camera->GetXY().x, stage->GetHeight() - game->GetWindowSizeXY().y * (1 / camera->GetZoom())});
         }
         // カメラの範囲がステージより大きいとき  When camera range is larger that stage
-        if(game->GetWindowSize().x * (1 / camera->GetZoom()) > stage->GetWidth()){
+        if(game->GetWindowSizeXY().x * (1 / camera->GetZoom()) > stage->GetWidth()){
             // 強制的にカメラを中央へ持ってくる  Move the camera forcibly to the center of stage
-            camera->SetXY({stage->GetWidth() / 2 - game->GetWindowSize().x * (1 / camera->GetZoom()) / 2, camera->GetXY().y});
+            camera->SetXY({stage->GetWidth() / 2 - game->GetWindowSizeXY().x * (1 / camera->GetZoom()) / 2, camera->GetXY().y});
         }
-        if(game->GetWindowSize().y * (1 / camera->GetZoom()) > stage->GetHeight()){
-            camera->SetXY({camera->GetXY().x, stage->GetHeight() / 2 - game->GetWindowSize().y * (1 / camera->GetZoom()) / 2});
+        if(game->GetWindowSizeXY().y * (1 / camera->GetZoom()) > stage->GetHeight()){
+            camera->SetXY({camera->GetXY().x, stage->GetHeight() / 2 - game->GetWindowSizeXY().y * (1 / camera->GetZoom()) / 2});
         }
         // 現在の左クリック状態を次のフレームへ引き継ぐ  The current left-click state is carried over to the next frame.
         old_left_button = current_left_button;
@@ -102,6 +103,6 @@ int main(int argc, char* argv[]){
     delete pictures;
     delete stage;
     delete numbers;
-    // delete stage;
+    delete stage;
     return 0;
 }

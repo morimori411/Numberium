@@ -23,7 +23,7 @@ void stage::Stage::Display(){
     // 背景  Background
     m_pictures->Add({my_main::Layer::BACK, 0}, "back", {0, 0});
     common::Vec2<float> back_jpg_size = m_pictures->GetTextures()->GetTextureSize("back");
-    m_pictures->SetScale({my_main::Layer::BACK, 0}, common::Vec2<float>(m_game->GetWindowSize().x / back_jpg_size.x, m_game->GetWindowSize().y / back_jpg_size.y));
+    m_pictures->SetScale({my_main::Layer::BACK, 0}, common::Vec2<float>(m_game->GetWindowSizeXY().x / back_jpg_size.x, m_game->GetWindowSizeXY().y / back_jpg_size.y));
     //線 line
     common::Vec2<int16_t> center_of_stage(m_width / 2, m_height / 2);
     for(int y = center_of_stage.y - m_height; y <= center_of_stage.x + m_height; y += DIST_BETWEEN_LINE){

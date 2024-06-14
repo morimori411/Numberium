@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vivid/vivid.h>
 #include <morimori_sdl.h>
-#include "../Layer.h"
+#include "../Const.h"
 #include "../Stage/Stage.h"
 
 namespace numbers{

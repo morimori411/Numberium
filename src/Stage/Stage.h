@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include <morimori_sdl.h>
-#include "../Layer.h"
+#include "../Const.h"
 
 namespace stage{
     const int DIST_BETWEEN_LINE = 500;
